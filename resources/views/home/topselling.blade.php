@@ -3,91 +3,84 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-
             <!-- section title -->
             <div class="col-md-12">
                 <div class="section-title">
-                    <h3 class="title">New Products</h3>
+                    <h3 class="title">Top Selling Products</h3>
                     <div class="section-nav">
                         <ul class="section-tab-nav tab-nav">
-                            @foreach($categories as $key => $category)
-                            <li class="{{ $key === 0 ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#tab{{ $key + 1 }}">{{ $category->category_name }}</a>
+                            @foreach($topSellingProducts as $categoryName => $products)
+                            <li class="{{ $loop->first ? 'active' : '' }}">
+                                <a data-toggle="tab" href="#{{ $categoryName }}">{{ $categoryName }}</a>
                             </li>
                             @endforeach
                         </ul>
-
                     </div>
                 </div>
             </div>
             <!-- /section title -->
-
             <!-- Products tab & slick -->
             <div class="col-md-12">
                 <div class="row">
                     <div class="products-tabs">
-
-                        @foreach($categories as $key => $category)
+                        @foreach($topSellingProducts as $categoryName => $products)
                         <!-- tab -->
-                        <div id="tab{{ $key + 1 }}" class="tab-pane {{ $key === 0 ? 'active' : '' }}">
-                            <div class="products-slick" data-nav="#slick-nav-{{ $key + 1 }}">
-
-                                @foreach(isset($products[$key]) ? $products[$key] : [] as $product)
+                        <div id="{{ $categoryName }}" class="tab-pane {{ $loop->first ? 'active' : '' }}">
+                            <div class="products-slick" data-nav="#slick-nav-{{ $categoryName }}">
+                                @foreach($products as $product)
                                 <!-- product -->
-                                <?php $i = $product['product']->id; ?>
-
-
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="/product/{{$product['product']->image}}" alt="">
+                                <div class="product" onclick="window.location.href='{{ url('/productdetails') }}?product={{ $product->id }}'">
+                                    @php
+                                    $images = json_decode($product->image); // Decode the JSON string into an array
+                                    @endphp
+                                    <div class="product-img product-img-container">
+                                        <img src="/product/{{ $images[0] }}" alt="">
                                     </div>
                                     <div class="product-body">
-                                        <p class="product-category">{{$product['product']->category}}</p>
-                                        <h3 class="product-name"><a href="#"> {{$product['product']->title}}</a></h3>
-
-                                        @if($product['product']->discount_price)
-                                        <h4 class="product-price"><i class="fa fa-rupee"></i>{{$product['product']->discount_price}} <del class="product-old-price"><i class="fa fa-rupee"></i>{{$product['product']->price}} </del></h4>
+                                        <p class="product-category">{{ $product->category }}</p>
+                                        <h3 class="product-name"><a href="{{ url('/productdetails') }}?product={{ $product->id }}">{{ $product->title }}</a></h3>
+                                        @if($product->discount_price)
+                                        <h4 class="product-price"><i class="fa fa-rupee"></i>{{ $product->discount_price }} <del class="product-old-price"><i class="fa fa-rupee"></i>{{ $product->price }}</del></h4>
                                         @else
-                                        <h4 class="product-price"><i class="fa fa-rupee"></i>{{$product['product']->price}}</h4>
+                                        <h4 class="product-price"><i class="fa fa-rupee"></i>{{ $product->price }}</h4>
                                         @endif
-
+                                        <!-- Additional product details -->
                                         <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            <!-- Add product rating here if available -->
                                         </div>
                                         <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 
-                                            <form action="{{ url('/productdetails') }}" method="post" class="form m-auto inline-flex" id="viewdetailsform{{ $i }}">
-                                                @csrf
-                                                <input type="hidden" name="product" value="{{$product['product']->id}}">
-                                            </form>
-                                            <button class="quick-view" onclick="submit('{{ $i }}','view')"><i class="fa fa-eye"></i><span class="tooltipp">view details</span></button>
+
+
+                                            <button class="quick-view">
+                                                <a href="{{ url('/productdetails') }}?product={{ $product->id }}">
+                                                    <i class="fa fa-eye"></i>
+                                                    <span class="tooltipp">view details</span>
+                                                </a>
+                                            </button>
+
+                                            <button class="add-to-wishlist">
+                                                <a href="{{ url('/addtowish') }}?product={{ $product->id }}&quantity=1">
+                                                    <i class="fa fa-heart-o"></i>
+                                                    <span class="tooltipp">add to wishlist</span>
+                                                </a>
+                                            </button>
+
+                                            <!-- <a href="{{ url('/productdetails') }}?product={{ $product->id }}" class="quick-view"><span class="tooltipp">view details</span></a> -->
 
                                         </div>
                                     </div>
+
                                     <div class="add-to-cart">
-
-                                        <form action="{{ url('/addtocart') }}" method="post" class="form m-auto inline-flex" id="addtocartform{{ $i }}">
-                                            @csrf
-                                            <input type="hidden" name="product" value="{{$product['product']->id}}">
-                                            <input type="hidden" value="1" name="quantity">
-                                        </form>
-
-                                        <button class="add-to-cart-btn" onclick="submit('{{ $i }}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                        <button>
+                                            <a href="{{ url('/addtocart') }}?product={{ $product->id }}&quantity=1" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</a>
+                                        </button>
                                     </div>
                                 </div>
-
-
                                 <!-- /product -->
                                 @endforeach
-
                             </div>
-                            <div id="slick-nav-{{ $key + 1 }}" class="products-slick-nav"></div>
-
+                            <div id="slick-nav-{{ $categoryName }}" class="products-slick-nav"></div>
                         </div>
                         <!-- /tab -->
                         @endforeach
@@ -105,10 +98,10 @@
 <script>
     function submit(id, type) {
         if (type == 'view') {
-            var formId = 'viewdetailsform' + id;
+            var formId = 'viewdetailsform1' + id;
             document.getElementById(formId).submit();
         } else {
-            var formId = 'addtocartform' + id;
+            var formId = 'addtocartform1' + id;
             document.getElementById(formId).submit();
         }
 

@@ -1,96 +1,128 @@
-<!DOCTYPE html>
-<html lang="en">
+<x-admin-layout>
 
-<head>
-    <style>
-        
+    <div class="text-center pt-1">
+        <h2 class="p-1">View Product</h2>
 
-        table {
-            table-layout: fixed;
-        }
+        @if(session()->has('del-message'))
+        <div class=" alert alert-danger">
+            <!-- <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button> -->
+            {{session()->get('del-message')}}
+        </div>
+        @endif
 
-        td {
-            white-space: normal !important;
-        }
-    </style>
+    </div>
 
-    <!-- Required meta tags -->
-    @include('admin.css')
+    <!-- ========== tables-wrapper start ========== -->
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <h6 class="mb-10">Product Table</h6>
 
-</head>
+                    <div class="table-wrapper table-responsive">
+                        <table class="striped-table table">
+                            <thead>
+                                <tr>
+                                    <th class="lead-info">
+                                        <h6>Title</h6>
+                                    </th>
+                                    <th class="">
+                                        <h6>Description</h6>
+                                    </th>
+                                    <th class="">
+                                        <h6>Quantity</h6>
+                                    </th>
+                                    <th class="">
+                                        <h6>Price</h6>
+                                    </th>
+                                    <th class="">
+                                        <h6>Discount</h6>
+                                    </th>
+                                    <th class="">
+                                        <h6>Category</h6>
+                                    </th>
+                                    <th colspan="2">
+                                        <h6>Action</h6>
+                                    </th>
+                                </tr>
+                                <!-- end table row-->
+                            </thead>
+                            <tbody>
+                                @foreach($data as $product)
+                                @php
+                                $product->image = json_decode($product->image);
+                                @endphp
+                                <tr>
+                                    <td class="min-width">
+                                        <div class="lead">
+                                            <div class="lead-image">
+                                                <img src="/product/{{$product->image[0]}}" alt="" />
+                                            </div>
+                                            <div class="lead-text">
+                                                <p>{{$product->title}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="min-width">
+                                        <p>{{$product->description}}</p>
+                                    </td>
+                                    <td class="min-width">
+                                        <p>{{$product->quantity}}</p>
+                                    </td>
+                                    <td class="min-width">
+                                        <p>{{$product->price}}</p>
+                                    </td>
+                                    <td class="min-width">
+                                        <p>{{$product->discount_price}}</p>
+                                    </td>
+                                    <td class="min-width">
+                                        <p>{{$product->category}}</p>
+                                    </td>
+                                    <td>
+                                        <div class="action">
+                                            <form action="{{ url('/update_product') }}" method="get">
+                                                @csrf
+                                                <input type="hidden" name="product" value="{{$product->id}}">
+                                                <button type="submit" class="text-primary"><i class="mdi mdi-pencil"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action">
+                                            <form action="{{ url('/delete_product') }}" method="post" id="delete_form" onsubmit="return confirm('Are you sure to Delete this?')">
+                                                @csrf
+                                                <input type="hidden" name="product" value="{{$product->id}}">
+                                                <button type="submit" class="text-danger"><i class="lni lni-trash-can"></i></button>
+                                            </form>
+                                        </div>
+                                    </td>
 
-<body>
-    <div class="container-scroller">
-        <!-- partial:partials/_sidebar.html -->
-        @include('admin.sidebar')
-        <!-- partial -->
-        <div class="container-fluid page-body-wrapper">
-            @include('admin.header')
-            <!-- partial -->
-            <div class="main-panel">
-                <div class="content-wrapper">
-                    <div class="text-center pt-1">
-                        <h2 class="p-1">View Product</h2>
+                                </tr>
+                                <!-- end table row -->
+                                @endforeach
+                                <tr>
+                                    <td colspan="7">
+                                        <!-- Pagination -->
+                                        <div class="pagination">
+                                            {{ $data->links() }}
+                                        </div>
+                                    </td>
+                                </tr>
 
-                        @if(session()->has('del-message'))
-                        <div class=" alert alert-danger">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                            {{session()->get('del-message')}}
-                        </div>
-                        @endif
+                            </tbody>
 
+
+
+                        </table>
+                        <!-- end table -->
                     </div>
-                    <table class="table table-responsive ml-auto mr-auto mt-2 w-auto text-center pb-1">
-                        <thead class="pb-1">
-                            <tr class="pb-1">
-                                <th class="pb-1 p-0 pl-3">Product Title</th>
-                                <th class="pb-1 p-0 pl-3">Product Description</th>
-                                <th class="pb-1 p-0 pl-3">Product Quantity</th>
-                                <th class="pb-1 p-0 pl-3">Product Price</th>
-                                <th class="pb-1 p-0 pl-3">Product Discount Price</th>
-                                <th class="pb-1 p-0 pl-3">Product Category</th>
-                                <th class="pb-1 p-0 pl-3">Product Image</th>
-                                <th class="pb-1 p-0 pl-3" colspan="2">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($data as $data)
-                            <tr>
-                                <td class="pb-1 p-0 pl-1">{{$data->title}}</td>
-                                <td class="pb-1 p-0 pl-1 text-break">{{$data->description}}</td>
-                                <td class="pb-1 p-0 pl-1">{{$data->quantity}}</td>
-                                <td class="pb-1 p-0 pl-1">{{$data->price}}</td>
-                                <td class="pb-1 p-0 pl-1">{{$data->discount_price}}</td>
-                                <td class="pb-1 p-0 pl-1">{{$data->category}}</td>
-                                <td class="pb-1 p-0 pl-1"><img src="/product/{{$data->image}}" alt="" class="pdt_img pt-1"></td>
-                                <td class="pb-1 p-0 pl-1">
-                                    <form action="{{ url('/delete_product') }}" method="post" id="delete_form" onsubmit="return confirm('Are you sure to Delete this?')">
-
-                                        @csrf
-                                        <input type="hidden" name="product" value="{{$data->id}}">
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
-                                </td>
-
-                                <td class="pb-1 p-0 pl-1">
-                                    <form action="{{ url('/update_product') }}" method="post">
-
-                                        @csrf
-                                        <input type="hidden" name="product" value="{{$data->id}}">
-                                        <button type="submit" class="btn btn-info">Edit</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
             </div>
+            <!-- end card -->
         </div>
-        <!-- page-body-wrapper ends -->
+        <!-- end col -->
     </div>
-    <!-- container-scroller -->
-    @include('admin.script')
-</body>
+    <!-- end row -->
+    </div>
 
-</html>
+</x-admin-layout>

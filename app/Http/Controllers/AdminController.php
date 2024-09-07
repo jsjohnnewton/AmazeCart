@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\Category;
 use App\Models\order;
@@ -11,6 +12,8 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
+
+
     public function viewcategory()
     {
         $data = category::all();
@@ -53,27 +56,25 @@ class AdminController extends Controller
         $data = new product;
 
         $data->title = $request->title;
-
         $data->description = $request->description;
-
         $data->category = $request->category;
-
         $data->quantity = $request->quantity;
-
         $data->price = $request->price;
-
         $data->discount_price = $request->discount;
 
+        $images = $request->file('images');
+        $imageNames = [];
 
+        if ($images) {
+            foreach ($images as $image) {
+                $imagename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move('product', $imagename);
+                $imageNames[] = $imagename;
+            }
 
-        $image = $request->image;
-
-        $imagename = time() . '.' . $image->getClientOriginalExtension();
-
-        $request->image->move('product', $imagename);
-
-
-        $data->image = $imagename;
+            // Store the array as a JSON string
+            $data->image = json_encode($imageNames);
+        }
 
         $data->save();
 
@@ -83,7 +84,9 @@ class AdminController extends Controller
 
     public function viewproduct()
     {
-        $data = product::all();
+        $data = product::paginate(10);
+
+
         return view('admin.viewproduct', compact('data'));
     }
 
@@ -143,29 +146,49 @@ class AdminController extends Controller
         $data->discount_price = $request->discount;
 
 
+        $uploadedImages = $request->file('images');
 
-        $image = $request->image;
+        // Decode the existing images JSON array
+        $existingImages = json_decode($data->image, true); // true to get an associative array
 
-        if ($image) {
+        // Handle removal of selected images
+        if ($request->has('remove_images')) {
+            foreach ($request->remove_images as $removeIndex) {
+                // Remove the image from the array
+                unset($existingImages[$removeIndex]);
+            }
 
-            $imagename = time() . '.' . $image->getClientOriginalExtension();
-
-            $request->image->move('product', $imagename);
-
-
-            $data->image = $imagename;
+            // Re-index the array to avoid gaps in the array keys
+            $existingImages = array_values($existingImages);
         }
 
+        // Handle new image uploads
+        if ($uploadedImages) {
+            foreach ($uploadedImages as $image) {
+                // Generate a unique name for the image
+                $imagename = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+
+                // Move the image to the 'product' directory
+                $image->move('product', $imagename);
+
+                // Add the new image to the beginning of the array
+                array_unshift($existingImages, $imagename);
+            }
+        }
+
+        // Re-encode the array back to a JSON string
+        $data->image = json_encode($existingImages);
 
         $data->save();
 
-        $data = product::find($request->product);
 
-        $category = category::all();
+        // $data = product::find($request->product);
 
-        $message = "Product Updated Successfully";
+        // $category = category::all();
 
-        return view('admin.update_product', compact('data', 'category', 'message'));
+        // $message = "Product Updated Successfully";
+
+        return redirect()->back()->with('message', 'Product Updated Successfully');
     }
 
 
@@ -181,19 +204,20 @@ class AdminController extends Controller
 
             $user = User::find($order->user_id);
 
-
-            $order_products[] = [
-                'id' => $order->id,
-                'user' => $user->name,
-                'mail' => $user->email,
-                'phone' => $order->phone,
-                'address' => $order->delivery_address,
-                'product' => $product,
-                'quantity' => $order->quantity,
-                'price' => $order->price,
-                'payment' => $order->payment_status,
-                'delivery' => $order->delivery_status
-            ];
+            if ($product && $user) {
+                $order_products[] = [
+                    'id' => $order->id,
+                    'user' => $user->name,
+                    'mail' => $user->email,
+                    'phone' => $order->phone,
+                    'address' => $order->delivery_address,
+                    'product' => $product,
+                    'quantity' => $order->quantity,
+                    'price' => $order->price,
+                    'payment' => $order->payment_status,
+                    'delivery' => $order->delivery_status
+                ];
+            }
         }
 
 
@@ -229,6 +253,7 @@ class AdminController extends Controller
                     'user' => $user->name,
                     'mail' => $user->email,
                     'phone' => $order->phone,
+                    'price'=>$order->price,
                     'address' => $order->delivery_address,
                     'product' => $product,
                     'quantity' => $order->quantity,
@@ -250,13 +275,17 @@ class AdminController extends Controller
 
         return redirect()->back()->with('del-message', 'Order Removed Successfully');
     }
+
+
+
+
     public function delivered(Request $request)
     {
         $data = order::find($request->product);
 
         $data->delivery_status = "delivered";
 
-        $data->payment_status = "completed";
+
 
         $data->save();
 

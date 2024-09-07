@@ -1,7 +1,7 @@
     <!-- HEADER -->
     <header class="sm:flex sm:justify-center sm:items-center">
         <!-- TOP HEADER -->
-        <div id="top-header" class="sm:fixed sm:top-0 w-full z-10">
+        <!-- <div id="top-header" class="sm:fixed sm:top-0 w-full z-10">
             <div class="container">
                 <ul class="header-links pull-left">
                     <li><a href="#"><i class="fa fa-phone"></i> +91 99999 88888</a></li>
@@ -9,7 +9,7 @@
                     <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
                 </ul>
                 <ul class="header-links pull-right">
-                    <!-- <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>/ -->
+
                     @if (Route::has('login'))
                     <li class="sm:fixed sm:top-0 sm:right-0 p-6  z-10">
                         @auth
@@ -31,53 +31,60 @@
                     @endif
                 </ul>
             </div>
-        </div>
+        </div> -->
         <!-- /TOP HEADER -->
 
         <!-- MAIN HEADER -->
-        <div id="header" class="w-full mt-16">
+        <div id="header" class="w-full">
             <!-- container -->
             <div class="container">
                 <!-- row -->
-                <div class="row sm:flex sm:justify-center sm:items-center ">
+                <div class="row sm:flex sm:justify-center sm:items-center  ml-10">
                     <!-- LOGO -->
                     <div class="col-md-3">
                         <div class="header-logo ">
                             <a href="{{url('/')}}" class="logo">
-                                <img src="./img/logo.png" alt="">
+                                <img src="/img/logo.png" alt="" height="100">
                             </a>
                         </div>
                     </div>
                     <!-- /LOGO -->
 
                     <!-- SEARCH BAR -->
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div class="header-search">
-                            <form>
-                                <select class="input-select">
-                                    <option value="0">All Categories</option>
-                                    <option value="1">Category 01</option>
-                                    <option value="1">Category 02</option>
+                            <form action="{{ route('search') }}" method="GET">
+                                <select name="category" class="input-select">
+                                    <option value="all" selected>All Categories</option>
+                                    @foreach($categories as $key => $category)
+                                    <option value="{{ $category->category_name }}">{{ $category->category_name }}</option>
+                                    @endforeach
                                 </select>
-                                <input class="input" placeholder="Search here">
-                                <button class="search-btn">Search</button>
+                                <input name="search_query" class="input" placeholder="Search here">
+                                <button type="submit" class="search-btn">Search</button>
                             </form>
+
                         </div>
                     </div>
                     <!-- /SEARCH BAR -->
 
                     <!-- ACCOUNT -->
-                    <div class="col-md-3 clearfix">
+                    <div class="col-md-4 clearfix">
                         <div class="header-ctn">
+
                             <!-- Wishlist -->
                             <div>
-                                <a href="#">
+                                <a href="{{ url('/viewwish') }}">
                                     <i class="fa fa-heart-o"></i>
                                     <span>Your Wishlist</span>
-                                    <div class="qty">2</div>
+                                    @if($wishes>0)
+                                    <div class="qty">{{$wishes}}</div>
+                                    @endif
                                 </a>
                             </div>
                             <!-- /Wishlist -->
+
+
                             <!-- Cart -->
                             <div class="dropdown">
                                 @if(sizeof($cart_products)>0)
@@ -95,8 +102,11 @@
                                         <?php $subtotal = 0; ?>
                                         @foreach($cart_products as $cart_product)
                                         <div class="product-widget">
+                                            @php
+                                            $images = json_decode($cart_product['product']->image); // Decode the JSON string into an array
+                                            @endphp
                                             <div class="product-img">
-                                                <img src="/product/{{$cart_product['product']->image}}" alt="">
+                                                <img src="/product/{{$images[0]}}" alt="">
                                             </div>
                                             <div class="product-body">
                                                 <h3 class="product-name"><a href="#">{{$cart_product['product']->title}}</a></h3>
@@ -118,7 +128,6 @@
                                     </div>
                                     <div class="cart-btns">
                                         <a href="{{ url('/viewcart') }}">View Cart</a>
-                                        <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                     </div>
                                 </div>
 
@@ -131,6 +140,55 @@
                                 @endif
                             </div>
                             <!-- /Cart -->
+
+                            <!-- Profile pic -->
+                            <div class="dropdown">
+                                <a>
+                                    <div class="profile" onclick="toggleDropdown()">
+                                        @Auth
+                                        <img src="{{ @Auth::user()->profile_photo_url }}" alt="{{ @Auth::user()->name }}">
+                                        @else
+                                        <img src="/assets/images/profile/profile-image.png" alt="profile_image">
+                                        @endauth
+                                    </div>
+                                </a>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <!-- Dropdown menu items -->
+                                    @Auth
+                                    <a href="{{url('/redirect')}}">
+                                        <i class="fa fa-user"></i>
+                                        <span>Profile</span>
+                                    </a>
+                                    <a href="{{url('/myorder')}}">
+                                        <i class="fa fa-shopping-bag"></i>
+                                        <span>My orders</span>
+                                    </a>
+                                    <hr>
+                                    <a>
+                                        <i class="fa fa-sign-out"></i>
+                                        <span>
+                                            <form action="{{ route('logout') }}" method="post" class="inline-flex   ">
+                                                @csrf
+                                                <input type="submit" value="Logout" style="all:unset">
+                                            </form>
+                                        </span>
+                                    </a>
+                                    @else
+                                    <a href=" {{ route('login') }}">
+                                        <i class="fa fa-sign-in"></i>
+                                        <span>Login</span>
+                                    </a>
+                                    <a href="{{ route('register') }}">
+                                        <i class="fa fa-user-plus"></i>
+                                        <span>Register</span>
+                                    </a>
+
+                                    @endauth
+                                </div>
+                            </div>
+                            <!-- /Profile pic -->
+
+
                             <!-- Menu Toogle -->
                             <div class="menu-toggle">
                                 <a href="#">
@@ -150,3 +208,25 @@
         <!-- /MAIN HEADER -->
     </header>
     <!-- /HEADER -->
+
+
+    <script>
+        // Function to toggle dropdown visibility
+        function toggleDropdown() {
+            var dropdownContent = document.getElementById("myDropdown");
+            dropdownContent.classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>

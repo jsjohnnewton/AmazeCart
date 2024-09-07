@@ -16,45 +16,108 @@ use App\Models\Cart;
 
 use App\Models\order;
 
+use App\Models\Address;
+use App\Models\Wish;
 use Illuminate\Support\Facades\Session;
 
-use Stripe;
+use Illuminate\Support\Facades\DB;
+
+use Carbon\Carbon;
 
 
 class HomeController extends Controller
 {
     //
+    public function funny()
+    {
+        if (Auth::id()) {
+            $usertype = Auth::user()->usertype;
+            if ($usertype == '1') {
+
+                // dd($usertype);
+                return $this->redirect();
+            } else {
+                // dd($usertype);
+
+                return $this->index();
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
     public function redirect()
     {
-        $usertype = Auth::user()->usertype;
-        if ($usertype == '1') {
-            $total_product = Product::all()->count();
+        if (Auth::id()) {
 
-            $total_order = order::all()->count();
+            $usertype = Auth::user()->usertype;
+            if ($usertype == '1') {
+                $total_product = Product::all()->count();
 
-            $total_user = User::all()->count();
+                $total_order = order::all()->count();
 
-            $orders = order::all();
+                $total_user = User::all()->count();
 
-            $total_revenue = 0;
+                $orders = order::all();
 
-            foreach ($orders as $order) {
-                $total_revenue += $order->price;
-            }
+                $total_revenue = 0;
+
+                foreach ($orders as $order) {
+                    if ($order->delivery_status == 'delivered') {
+
+                        $total_revenue += $order->price;
+                    }
+                }
+
+                // getting current month
+
+                $currentYear = Carbon::now()->year;
+                $currentMonth = Carbon::now()->month;
 
 
-            $order_delivered = order::where('delivery_status', 'delivered')->count();
-            $order_process = order::where('delivery_status', 'Processing')->count();
+                $month_total_order = Order::whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $currentMonth)
+                    ->count();
+
+                $new_user = User::whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $currentMonth)
+                    ->count();
+
+                $month_orders = Order::whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $currentMonth)
+                    ->get();
+
+                $month_total_revenue = 0;
+
+                foreach ($month_orders as $order) {
+                    if ($order->delivery_status == 'delivered') {
+                        $month_total_revenue += $order->price;
+                    }
+                }
+
+                $order_process = order::where('delivery_status', 'Processing')->count();
+
+                $order_delivered = Order::where('delivery_status', 'delivered')
+                    ->whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $currentMonth)
+                    ->count();
+
+                $order_cancelled = Order::where('delivery_status', 'cancelled')
+                    ->whereYear('created_at', $currentYear)
+                    ->whereMonth('created_at', $currentMonth)
+                    ->count();
 
 
-            return view('admin.home', compact('total_product', 'total_order', 'total_user', 'total_revenue', 'order_delivered', 'order_process'));
-        } else {
+                $users = User::all();
 
-            if (Auth::id()) {
+                return view('admin.home', compact('total_product', 'total_order', 'total_user', 'total_revenue', 'order_delivered', 'order_process', 'order_cancelled', 'month_total_order', 'month_total_revenue', 'new_user', 'users'));
+            } else {
 
                 $user = Auth::user();
 
                 $products = [];
+                $cart_products = [];
+
                 $categories = category::all();
 
                 $carts = Cart::where('user_id', Auth::id())->get();
@@ -62,21 +125,64 @@ class HomeController extends Controller
                 foreach ($carts as  $cart) {
                     $cart_product = product::find($cart->product_id);
 
+                    if ($cart_product) {
+                        $cart_products[] = [
+                            'id' => $cart->id,
+                            'product' => $cart_product,
+                            'quantity' => $cart->quantity
+                        ];
+                    }
+                }
 
+                $wishes = Wish::where('user_id', Auth::id())->count();
+
+
+
+                return view('home.dashboard.myaccount', compact('categories', 'cart_products', 'wishes'));
+            }
+        } else {
+            return redirect('login');
+        }
+    }
+
+
+
+    public function myorder()
+    {
+
+        if (Auth::id()) {
+
+            $user = Auth::user();
+
+            $products = [];
+            $cart_products = [];
+            $order_products = [];
+            $categories = category::all();
+
+            $carts = Cart::where('user_id', Auth::id())->get();
+
+            foreach ($carts as  $cart) {
+                $cart_product = product::find($cart->product_id);
+
+
+
+                if ($cart_product) {
                     $cart_products[] = [
                         'id' => $cart->id,
                         'product' => $cart_product,
                         'quantity' => $cart->quantity
                     ];
                 }
+            }
 
-                $orders = order::where('user_id', $user->id)->get();
 
-                $order_products = [];
+            $orders = order::where('user_id', $user->id)->get()->sortByDesc('created_at');
 
-                foreach ($orders as  $order) {
 
-                    $product = product::find($order->product_id);
+            foreach ($orders as  $order) {
+
+                $product = product::find($order->product_id);
+                if ($product) {
 
                     $order_products[] = [
                         'id' => $order->id,
@@ -91,19 +197,20 @@ class HomeController extends Controller
                         'delivery' => $order->delivery_status
                     ];
                 }
-
-
-
-
-                return view('home.dashboard', compact('categories', 'cart_products', 'order_products'));
-            } else {
-                return redirect('login');
             }
+
+            $wishes = Wish::where('user_id', Auth::id())->count();
+
+
+
+            return view('home.dashboard', compact('categories', 'cart_products', 'order_products', 'wishes'));
+        } else {
+            return redirect('login');
         }
     }
 
 
-    public function myaccount()
+    public function shippingAddressManage()
     {
 
         if (Auth::id()) {
@@ -111,6 +218,7 @@ class HomeController extends Controller
             $user = Auth::user();
 
             $products = [];
+            $cart_products = [];
             $categories = category::all();
 
             $carts = Cart::where('user_id', Auth::id())->get();
@@ -119,20 +227,66 @@ class HomeController extends Controller
                 $cart_product = product::find($cart->product_id);
 
 
-                $cart_products[] = [
-                    'id' => $cart->id,
-                    'product' => $cart_product,
-                    'quantity' => $cart->quantity
-                ];
-            }
 
-            return view('home.dashboard.account', compact('categories', 'cart_products'));
+                if ($cart_product) {
+                    $cart_products[] = [
+                        'id' => $cart->id,
+                        'product' => $cart_product,
+                        'quantity' => $cart->quantity
+                    ];
+                }
+            }
+            $wishes = Wish::where('user_id', Auth::id())->count();
+
+
+            $Addresses = address::where('user_id', $user->id)->get();
+
+            return view('home.dashboard.address', compact('categories', 'cart_products', 'Addresses', 'wishes'));
         } else {
             return redirect('login');
         }
     }
+
+
+    public function addaddress(Request $request)
+    {
+        if (Auth::id()) {
+            $user = Auth::id();
+
+            $door_number = $request->input('door_number');
+            $street = $request->input('street');
+            $post_office = $request->input('post_office');
+            $district = $request->input('district');
+            $state = $request->input('state');
+            $postal_code = $request->input('postal_code');
+
+            // Create a new Address instance
+            $address = new Address();
+
+            // Set the attributes
+            $address->user_id = $user;
+            $address->door_number = $door_number; // Assuming $door_number is defined
+            $address->street = $street; // Assuming $street is defined
+            $address->post_office = $post_office; // Assuming $post_office is defined
+            $address->district = $district; // Assuming $district is defined
+            $address->state = $state; // Assuming $state is defined
+            $address->pincode = $postal_code; // Assuming $postal_code is defined
+
+            // Save the data to the database
+            $address->save();
+
+            $message = 'Shipping Address Added';
+
+
+            return back()->with('success', $message);
+        } else {
+            return redirect('login');
+        }
+    }
+
     public function index()
     {
+
         $categories = category::all();
 
 
@@ -140,11 +294,22 @@ class HomeController extends Controller
 
         $cards = [];
         foreach ($group as $category => $productsInCategory) {
+            $firstProduct = $productsInCategory->first();
+            $firstImage = '';
+
+            if ($firstProduct && !empty($firstProduct['image'])) {
+                $images = json_decode($firstProduct['image'], true); // Decode the JSON string
+                if (is_array($images) && !empty($images)) {
+                    $firstImage = $images[0]; // Get the first image from the array
+                }
+            }
+
             $cards[] = [
                 'category' => $category,
-                'image' => $productsInCategory->first()['image'],
+                'image' => $firstImage,
             ];
         }
+
 
         $products = [];
 
@@ -162,23 +327,38 @@ class HomeController extends Controller
             }
         }
 
-        $cart_products = [];
 
-        if (Auth::id()) {
-            $carts = Cart::where('user_id', Auth::id())->get();
+        // top selling
 
-            foreach ($carts as  $cart) {
-                $cart_product = product::find($cart->product_id);
+        $topSellingProducts = [];
 
 
-                $cart_products[] = [
-                    'id' => $cart->id,
-                    'product' => $cart_product,
-                    'quantity' => $cart->quantity
-                ];
+
+        // Iterate through each category
+        foreach ($categories as $category) {
+            // Retrieve the top-selling product for the current category
+
+            $topSellingProduct = DB::table('orders')
+                ->join('products', 'orders.product_id', '=', 'products.id')
+                ->select('products.id', 'products.title', 'products.image', 'products.category', 'products.price', 'products.discount_price', DB::raw('SUM(orders.quantity) as total_quantity'))
+                ->where('products.category', '=', $category->category_name)
+                ->groupBy('products.id', 'products.title', 'products.image', 'products.category', 'products.price', 'products.discount_price') // Include selected columns in GROUP BY
+                ->orderByDesc('total_quantity')
+                ->take(4) // Limit to top 4 products
+                ->get();
+
+            // dd($topSellingProduct);
+
+            // Add the top-selling product to the array
+            // Add the top-selling product to the array if it has data
+            if ($topSellingProduct->isNotEmpty()) {
+                $topSellingProducts[$category->category_name] = $topSellingProduct;
             }
         }
-        return view('home.userpage', compact('categories', 'products', 'cards', 'cart_products'));
+
+        // dd($topSellingProducts);
+
+        return view('home.userpage', compact('categories', 'products', 'cards', 'topSellingProducts'));
     }
 
 
@@ -190,6 +370,7 @@ class HomeController extends Controller
 
         $cart_products = [];
 
+        $wishes = 0;
         if (Auth::id()) {
             $carts = Cart::where('user_id', Auth::id())->get();
 
@@ -197,17 +378,25 @@ class HomeController extends Controller
                 $cart_product = product::find($cart->product_id);
 
 
-                $cart_products[] = [
-                    'id' => $cart->id,
-                    'product' => $cart_product,
-                    'quantity' => $cart->quantity
-                ];
+                if ($cart_product) {
+                    $cart_products[] = [
+                        'id' => $cart->id,
+                        'product' => $cart_product,
+                        'quantity' => $cart->quantity
+                    ];
+                }
             }
+
+            $wishes = Wish::where('user_id', Auth::id())->count();
         }
 
-        return view('home.productdetails', compact('product', 'cart_products', 'categories'));
+        return view('home.productdetails', compact('product', 'cart_products', 'categories', 'wishes'));
     }
 
+
+
+
+    // cart
     public function addtocart(Request $request)
     {
         if (Auth::id()) {
@@ -261,16 +450,21 @@ class HomeController extends Controller
             foreach ($carts as  $cart) {
                 $cart_product = product::find($cart->product_id);
 
-
-                $cart_products[] = [
-                    'id' => $cart->id,
-                    'product' => $cart_product,
-                    'quantity' => $cart->quantity
-                ];
+                if ($cart_product) {
+                    $cart_products[] = [
+                        'id' => $cart->id,
+                        'product' => $cart_product,
+                        'quantity' => $cart->quantity
+                    ];
+                }
             }
 
+            $Addresses = address::where('user_id', Auth::id())->get();
 
-            return view('home.view_cart', compact('cart_products', 'categories'));
+            $wishes = Wish::where('user_id', Auth::id())->count();
+
+
+            return view('home.view_cart', compact('cart_products', 'categories', 'Addresses', 'wishes'));
         } else {
             return redirect('login');
         }
@@ -309,6 +503,158 @@ class HomeController extends Controller
             return redirect('login');
         }
     }
+
+    // wish
+    public function addtowish(Request $request)
+    {
+        if (Auth::id()) {
+            $user = Auth::id();
+            $product = $request->product;
+            $quantity = $request->quantity;
+
+            $cart = new Wish();
+
+            $cart->user_id = $user;
+            $cart->product_id = $product;
+            $cart->quantity = $quantity;
+
+            $cart->save();
+
+            $message = 'Product Added to wishlist';
+
+
+            return back()->with('success', $message);
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function updatewish(Request $request)
+    {
+        if (Auth::id()) {
+
+            $cart = Cart::find($request->id);
+
+            $cart->quantity = $request->quantity;
+
+            $cart->save();
+
+            $message = 'WishList Updated';
+
+            return back();
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function viewwish()
+    {
+        if (Auth::id()) {
+
+            $categories = category::all();
+
+            $carts = Cart::where('user_id', Auth::id())->get();
+
+            $cart_products = [];
+            foreach ($carts as  $cart) {
+                $cart_product = product::find($cart->product_id);
+
+                if ($cart_product) {
+                    $cart_products[] = [
+                        'id' => $cart->id,
+                        'product' => $cart_product,
+                        'quantity' => $cart->quantity
+                    ];
+                }
+            }
+
+            $wishes = Wish::where('user_id', Auth::id())->get();
+            $wish_products = [];
+            foreach ($wishes as  $wish) {
+                $wish_product = product::find($wish->product_id);
+
+                if ($wish_product) {
+                    $wish_products[] = [
+                        'id' => $wish->id,
+                        'product' => $wish_product,
+                        'quantity' => $wish->quantity
+                    ];
+                }
+            }
+
+            $wishes = Wish::where('user_id', Auth::id())->count();
+
+
+            return view('home.view_wish', compact('cart_products', 'categories', 'wish_products', 'wishes'));
+        } else {
+            return redirect('login');
+        }
+    }
+
+
+
+    public function deletewish(Request $request)
+    {
+        if (Auth::id()) {
+            $data = Wish::find($request->product);
+
+            $data->delete();
+
+            $message = 'Product Deleted Successfully';
+
+            return back()->with('success', $message);
+        } else {
+            return redirect('login');
+        }
+    }
+
+    public function clearwish()
+    {
+        if (Auth::id()) {
+            $clearcarts = Wish::where('user_id', Auth::id())->get();
+
+            foreach ($clearcarts as  $cart) {
+                $cart->delete();
+            }
+
+            $message = 'Wish list Cleared!';
+
+            return back()->with('success', $message);
+        } else {
+            return redirect('login');
+        }
+    }
+
+
+
+    public function movetocart(Request $request)
+    {
+        $products = $request->input('product', []);
+
+        foreach ($products as $productid) {
+
+            $cart = new Cart();
+
+            $wish = Wish::find($productid);
+
+            $product = product::find($wish->product_id);
+
+            if ($product !== null && $wish !== null) {
+
+                $cart->user_id = $wish->user_id;
+                $cart->product_id = $wish->product_id;
+                $cart->quantity = $wish->quantity;
+            }
+            $wish->delete();
+
+            $cart->save();
+        }
+
+        $message = 'Moved to Cart';
+
+        return back()->with('success', $message);
+    }
+
 
     public function pay_cash(Request $request)
     {
@@ -354,28 +700,6 @@ class HomeController extends Controller
 
         return back()->with('success', $message);
     }
-    public function pay_card(Request $request)
-    {
-        $totalprice = $request->totalprice;
-        return view("home.pay_card", compact('totalprice'));
-    }
-
-
-    public function stripePost(Request $request)
-    {
-        Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
-
-        Stripe\Charge::create([
-            "amount" => 100 * 100,
-            "currency" => "usd",
-            "source" => $request->stripeToken,
-            "description" => "Test payment from itsolutionstuff.com."
-        ]);
-
-        Session::flash('success', 'Payment successful!');
-
-        return back();
-    }
 
 
     public function categorypage($category)
@@ -385,9 +709,18 @@ class HomeController extends Controller
 
         $categoryname = $category;
 
-        $products = product::where('category', $category);
+        if ($categoryname == 'all') {
+            # code...
+            $products = product::paginate(9);
+        } else {
+            # code...
+            $products = product::where('category', $category)->paginate(9);
+        }
+
 
         $cart_products = [];
+
+        $wishes = 0;
 
         if (Auth::id()) {
             $carts = Cart::where('user_id', Auth::id())->get();
@@ -396,14 +729,138 @@ class HomeController extends Controller
                 $cart_product = product::find($cart->product_id);
 
 
-                $cart_products[] = [
-                    'id' => $cart->id,
-                    'product' => $cart_product,
-                    'quantity' => $cart->quantity
-                ];
+                if ($cart_product) {
+                    $cart_products[] = [
+                        'id' => $cart->id,
+                        'product' => $cart_product,
+                        'quantity' => $cart->quantity
+                    ];
+                }
+            }
+
+            $wishes = Wish::where('user_id', Auth::id())->count();
+        }
+
+
+        $priceRange = '';
+        return view('home.categorypage', compact('products', 'cart_products', 'categories', 'categoryname', 'priceRange', 'wishes'));
+    }
+
+    public function search(Request $request)
+    {
+        $categories = Category::all();
+
+        $categoryname = $request->input('category');
+        $searchtext = $request->input('search_query');
+        $priceRange = $request->input('price_range');
+
+        // dd($categoryname);
+
+        $productsQuery = Product::query();
+        if ($categoryname) {
+
+            if (is_array($categoryname)) {
+                $productsQuery->whereIn('category', $categoryname);
+            } else if ($categoryname != 'all') {
+                $productsQuery->where('category', $categoryname);
             }
         }
 
-        return view('home.categorypage', compact('products', 'cart_products', 'categories', 'categoryname'));
+
+        // Filter by search text
+        $productsQuery->where(function ($query) use ($searchtext) {
+            $query->where('title', 'LIKE', '%' . $searchtext . '%')
+                ->orWhere('description', 'LIKE', '%' . $searchtext . '%')
+                ->orWhere('category', 'LIKE', '%' . $searchtext . '%');
+        });
+
+        // // Filter by price range if selected
+        if ($priceRange) {
+            foreach ($priceRange as $index => $Range) {
+                // Extracting price range values
+                list($minPrice, $maxPrice) = explode('-', $Range);
+
+                if ($minPrice == 'above') {
+                    # code...
+
+                    // If it's not the first condition, add 'OR'
+                    if ($index == 0) {
+                        $productsQuery->where('price', '>', $maxPrice);
+                    } else {
+                        // Use ORWhereBetween instead of WhereBetween for subsequent conditions
+                        $productsQuery->orwhere('price', '>', $maxPrice);
+                    }
+                } else {
+                    # code... 
+                    if ($minPrice == 'below') {
+                        $minPrice = 0;
+                    }
+
+                    // Convert min and max prices to decimal
+                    $minPrice = floatval($minPrice);
+                    $maxPrice = floatval($maxPrice);
+
+                    // If it's not the first condition, add 'OR'
+                    if ($index == 0) {
+                        $productsQuery->whereBetween('price', [$minPrice, $maxPrice]);
+                    } else {
+                        // Use ORWhereBetween instead of WhereBetween for subsequent conditions
+                        $productsQuery->orWhereBetween('price', [$minPrice, $maxPrice]);
+                    }
+                }
+            }
+        }
+
+        $sql = $productsQuery->toSql();
+        // dd($sql);
+
+        // Paginate the results
+
+        $products = $productsQuery->paginate(9);
+
+        // $products = $productsQuery->get();
+        // dd($products);
+
+
+        // Load cart products
+        $wishes = 0;
+
+        $cart_products = [];
+        if (Auth::id()) {
+            $carts = Cart::where('user_id', Auth::id())->get();
+
+            foreach ($carts as $cart) {
+                $cart_product = Product::find($cart->product_id);
+
+
+                if ($cart_product) {
+                    $cart_products[] = [
+                        'id' => $cart->id,
+                        'product' => $cart_product,
+                        'quantity' => $cart->quantity
+                    ];
+                }
+            }
+
+            $wishes = Wish::where('user_id', Auth::id())->count();
+        }
+
+
+        return view('home.categorypage', compact('products', 'cart_products', 'categories', 'categoryname', 'priceRange', 'wishes'));
+    }
+
+
+
+
+    public function cancel(Request $request)
+    {
+        $orderid = $request->product;
+        $order = order::find($orderid);
+
+        $order->delivery_status = 'cancelled';
+
+        $order->save();
+
+        return redirect()->back()->with('del-message', 'Order Cancelled !');
     }
 }

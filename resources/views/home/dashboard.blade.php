@@ -6,17 +6,17 @@
 
 <body>
     <!-- Header -->
-    @include('home.dashboard.header')
+    @include('home.header')
     <!-- /header -->
     <!-- navigation -->
     @include('home.dashboard.navigation')
     <!-- navigation -->
 
-
+    <!-- 
     <div class="section" id="mydashboard">
-        <!-- container -->
+        container
         <div class="container">
-            <!-- row -->
+            row
             <div class="row sm:flex sm:justify-center">
                 <div class="main-panel">
                     <div class="content-wrapper">
@@ -37,11 +37,13 @@
 
             </div>
         </div>
-    </div>
+    </div> -->
 
     <div class="section" id="myorder">
         <!-- container -->
         <div class="container">
+
+            @if (!empty($order_products))
             <!-- row -->
             <div class="row sm:flex sm:justify-center">
                 <div class="main-panel">
@@ -82,19 +84,18 @@
 
 
                                     <td class="pb-1 p-0 pl-1">
-                                        @if($order_product['payment']!='completed')
-
-                                        <span class="btn btn-warning">Payment Pending</span>
-
-                                        @else
+                                        @if($order_product['payment']=='completed')
                                         <span class="btn btn-success">Payment completed</span>
+                                        @else
+                                        <span class="btn btn-warning">Payment Pending</span>
                                         @endif
                                     </td>
                                     <td class="pb-1 p-0 pl-1">
                                         @if($order_product['delivery']=='Processing')
 
                                         <span class="btn btn-info">On Route</span>
-
+                                        @elseif($order_product['delivery']=='cancelled')
+                                        <span class="btn btn-warning">Cancelled</span>
                                         @else
                                         <span class="btn btn-success">Product Delivered</span>
                                         @endif
@@ -103,10 +104,10 @@
 
                                     @if($order_product['delivery']=='Processing')
                                     <td class="pb-1 p-0 pl-1">
-                                        <form action="{{ url('') }}" method="post" id="delete_form" onsubmit="return confirm('Are you sure to Delete this?')">
+                                        <form action="{{ url('/cancel') }}" method="post" id="delete_form" onsubmit="return confirm('Are you sure to cancel this order?')">
                                             @csrf
                                             <input type="hidden" name="product" value="{{$order_product['id']}}">
-                                            <button type="submit" class="btn btn-danger">Cancel Order</button>
+                                            <button type="submit" class="btn btn-danger" style="background-color: red;">Cancel Order</button>
                                         </form>
                                     </td>
                                     @endif
@@ -118,9 +119,14 @@
                     </div>
                 </div>
             </div>
+            @else
+            <div class="row sm:flex sm:justify-center">
+                <p>No Orders Placed</p>
+            </div>
+            @endif
         </div>
     </div>
-    
+
     <!-- FOOTER -->
     @include('home.footer')
     <!-- /FOOTER -->

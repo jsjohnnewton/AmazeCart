@@ -3,9 +3,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Amazecart</title>
     <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Styles -->
+    @livewireStyles
+
     <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
 
@@ -151,7 +163,7 @@
         [type=submit],
         button {
             -webkit-appearance: button;
-            background-color: transparent;
+            /* background-color: transparent; */
             background-image: none
         }
 
@@ -426,7 +438,7 @@
         }
 
         .mt-16 {
-            margin-top: 4rem
+            margin-top: 3rem
         }
 
         .mt-6 {
@@ -859,4 +871,6 @@
             border-radius: 0 !important;
         }
     </style>
+
+
 </head>

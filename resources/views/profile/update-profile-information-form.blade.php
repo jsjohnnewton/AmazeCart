@@ -55,24 +55,26 @@
             <x-input-error for="name" class="mt-2" />
         </div>
 
-
+        <!-- Phone -->
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="phone" value="{{ __('phone') }}" />
-            <x-input id="phone" class="block mt-1 w-full" type="number" name="phone" :value="old('phone')" required />
+            <x-label for="phone" value="{{ __('Phone') }}" />
+            <x-input id="phone" type="tel" class="mt-1 block w-full" wire:model="state.phone" required autocomplete="tel" />
             <x-input-error for="phone" class="mt-2" />
         </div>
 
 
+        <!-- Date of Birth -->
         <div class="col-span-6 sm:col-span-4">
-            <x-label for="address" value="{{ __('address') }}" />
-            <x-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
-            <x-input-error for="address" class="mt-2" />
+            <x-label for="dob" value="{{ __('Date of Birth') }}" />
+            <x-input id="dob" type="date" class="mt-1 block w-full" wire:model="state.dob" required autocomplete="dob" />
+            <x-input-error for="dob" class="mt-2" />
         </div>
+
 
         <!-- Email -->
         <div class="col-span-6 sm:col-span-4">
             <x-label for="email" value="{{ __('Email') }}" />
-            <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required autocomplete="username" />
+            <x-input id="email" type="email" class="mt-1 block w-full bg-gray-200" wire:model="state.email" required autocomplete="username" readonly  />
             <x-input-error for="email" class="mt-2" />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::emailVerification()) && ! $this->user->hasVerifiedEmail())

@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="csrf-token" content="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ">
+    <title>Amazecart</title>
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    <link rel="preload" as="style" href="http://localhost:8000/build/assets/app-I9P78BQW.css" /><link rel="modulepreload" href="http://localhost:8000/build/assets/app-p4n4M-rx.js" /><link rel="stylesheet" href="http://localhost:8000/build/assets/app-I9P78BQW.css" data-navigate-track="reload" /><script type="module" src="http://localhost:8000/build/assets/app-p4n4M-rx.js" data-navigate-track="reload"></script>
+    <!-- Styles -->
+    <!-- Livewire Styles --><style >[wire\:loading][wire\:loading], [wire\:loading\.delay][wire\:loading\.delay], [wire\:loading\.inline-block][wire\:loading\.inline-block], [wire\:loading\.inline][wire\:loading\.inline], [wire\:loading\.block][wire\:loading\.block], [wire\:loading\.flex][wire\:loading\.flex], [wire\:loading\.table][wire\:loading\.table], [wire\:loading\.grid][wire\:loading\.grid], [wire\:loading\.inline-flex][wire\:loading\.inline-flex] {display: none;}[wire\:loading\.delay\.none][wire\:loading\.delay\.none], [wire\:loading\.delay\.shortest][wire\:loading\.delay\.shortest], [wire\:loading\.delay\.shorter][wire\:loading\.delay\.shorter], [wire\:loading\.delay\.short][wire\:loading\.delay\.short], [wire\:loading\.delay\.default][wire\:loading\.delay\.default], [wire\:loading\.delay\.long][wire\:loading\.delay\.long], [wire\:loading\.delay\.longer][wire\:loading\.delay\.longer], [wire\:loading\.delay\.longest][wire\:loading\.delay\.longest] {display: none;}[wire\:offline][wire\:offline] {display: none;}[wire\:dirty]:not(textarea):not(input):not(select) {display: none;}:root {--livewire-progress-bar-color: #2299dd;}[x-cloak] {display: none !important;}</style>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link type="text/css" rel="stylesheet" href="/home/css/bootstrap.min.css" />
+
+    <!-- Slick -->
+    <link type="text/css" rel="stylesheet" href="/home/css/slick.css" />
+    <link type="text/css" rel="stylesheet" href="/home/css/slick-theme.css" />
+
+    <!-- nouislider -->
+    <link type="text/css" rel="stylesheet" href="/home/css/nouislider.min.css" />
+
+    <!-- Font Awesome Icon -->
+    <link rel="stylesheet" href="/home/css/font-awesome.min.css">
+
+    <!-- Custom stlylesheet -->
+    <link type="text/css" rel="stylesheet" href="/home/css/style.css" />
+
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+    <!--style from weelcome.blade-->
+    <style>
+        /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+            border-width: 0;
+            border-style: solid;
+            border-color: #e5e7eb
+        }
+
+        ::after,
+        ::before {
+            --tw-content: ''
+        }
+
+        html {
+            line-height: 1.5;
+            -webkit-text-size-adjust: 100%;
+            -moz-tab-size: 4;
+            tab-size: 4;
+            font-family: Figtree, sans-serif;
+            font-feature-settings: normal
+        }
+
+        body {
+            margin: 0;
+            line-height: inherit
+        }
+
+        hr {
+            height: 0;
+            color: inherit;
+            border-top-width: 1px
+        }
+
+        abbr:where([title]) {
+            -webkit-text-decoration: underline dotted;
+            text-decoration: underline dotted
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-size: inherit;
+            font-weight: inherit
+        }
+
+        a {
+            color: inherit;
+            text-decoration: inherit
+        }
+
+        b,
+        strong {
+            font-weight: bolder
+        }
+
+        code,
+        kbd,
+        pre,
+        samp {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-size: 1em
+        }
+
+        small {
+            font-size: 80%
+        }
+
+        sub,
+        sup {
+            font-size: 75%;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline
+        }
+
+        sub {
+            bottom: -.25em
+        }
+
+        sup {
+            top: -.5em
+        }
+
+        table {
+            text-indent: 0;
+            border-color: inherit;
+            border-collapse: collapse
+        }
+
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: inherit;
+            font-size: 100%;
+            font-weight: inherit;
+            line-height: inherit;
+            color: inherit;
+            margin: 0;
+            padding: 0
+        }
+
+        button,
+        select {
+            text-transform: none
+        }
+
+        [type=button],
+        [type=reset],
+        [type=submit],
+        button {
+            -webkit-appearance: button;
+            /* background-color: transparent; */
+            background-image: none
+        }
+
+        :-moz-focusring {
+            outline: auto
+        }
+
+        :-moz-ui-invalid {
+            box-shadow: none
+        }
+
+        progress {
+            vertical-align: baseline
+        }
+
+        ::-webkit-inner-spin-button,
+        ::-webkit-outer-spin-button {
+            height: auto
+        }
+
+        [type=search] {
+            -webkit-appearance: textfield;
+            outline-offset: -2px
+        }
+
+        ::-webkit-search-decoration {
+            -webkit-appearance: none
+        }
+
+        ::-webkit-file-upload-button {
+            -webkit-appearance: button;
+            font: inherit
+        }
+
+        summary {
+            display: list-item
+        }
+
+        blockquote,
+        dd,
+        dl,
+        figure,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        hr,
+        p,
+        pre {
+            /* margin: 0 */
+        }
+
+        fieldset {
+            margin: 0;
+            padding: 0
+        }
+
+        legend {
+            padding: 0
+        }
+
+        menu,
+        ol,
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        textarea {
+            resize: vertical
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            opacity: 1;
+            color: #9ca3af
+        }
+
+        [role=button],
+        button {
+            cursor: pointer
+        }
+
+        :disabled {
+            cursor: default
+        }
+
+        audio,
+        canvas,
+        embed,
+        iframe,
+        img,
+        object,
+        svg,
+        video {
+            display: block;
+            vertical-align: middle
+        }
+
+        img,
+        video {
+            max-width: 100%;
+            height: auto
+        }
+
+        [hidden] {
+            display: none
+        }
+
+        *,
+        ::before,
+        ::after {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia:
+        }
+
+        ::-webkit-backdrop {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia:
+        }
+
+        ::backdrop {
+            --tw-border-spacing-x: 0;
+            --tw-border-spacing-y: 0;
+            --tw-translate-x: 0;
+            --tw-translate-y: 0;
+            --tw-rotate: 0;
+            --tw-skew-x: 0;
+            --tw-skew-y: 0;
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            --tw-pan-x: ;
+            --tw-pan-y: ;
+            --tw-pinch-zoom: ;
+            --tw-scroll-snap-strictness: proximity;
+            --tw-ordinal: ;
+            --tw-slashed-zero: ;
+            --tw-numeric-figure: ;
+            --tw-numeric-spacing: ;
+            --tw-numeric-fraction: ;
+            --tw-ring-inset: ;
+            --tw-ring-offset-width: 0px;
+            --tw-ring-offset-color: #fff;
+            --tw-ring-color: rgb(59 130 246 / 0.5);
+            --tw-ring-offset-shadow: 0 0 #0000;
+            --tw-ring-shadow: 0 0 #0000;
+            --tw-shadow: 0 0 #0000;
+            --tw-shadow-colored: 0 0 #0000;
+            --tw-blur: ;
+            --tw-brightness: ;
+            --tw-contrast: ;
+            --tw-grayscale: ;
+            --tw-hue-rotate: ;
+            --tw-invert: ;
+            --tw-saturate: ;
+            --tw-sepia: ;
+            --tw-drop-shadow: ;
+            --tw-backdrop-blur: ;
+            --tw-backdrop-brightness: ;
+            --tw-backdrop-contrast: ;
+            --tw-backdrop-grayscale: ;
+            --tw-backdrop-hue-rotate: ;
+            --tw-backdrop-invert: ;
+            --tw-backdrop-opacity: ;
+            --tw-backdrop-saturate: ;
+            --tw-backdrop-sepia:
+        }
+
+        .relative {
+            position: relative
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto
+        }
+
+        .m-6 {
+            margin-top: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .mx-6 {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem
+        }
+
+        .ml-4 {
+            margin-left: 1rem
+        }
+
+        .mt-16 {
+            margin-top: 4rem
+        }
+
+        .mt-6 {
+            margin-top: 1.5rem
+        }
+
+        .mt-4 {
+            margin-top: 1rem
+        }
+
+        .-mt-px {
+            margin-top: -1px
+        }
+
+        .mr-1 {
+            margin-right: 0.25rem
+        }
+
+        .flex {
+            display: flex
+        }
+
+        .wrap {
+            flex-wrap: wrap;
+        }
+
+        .inline-flex {
+            display: inline-flex
+        }
+
+        .grid {
+            display: grid
+        }
+
+        .h-16 {
+            height: 4rem
+        }
+
+        .h-7 {
+            height: 1.75rem
+        }
+
+        .h-6 {
+            height: 1.5rem
+        }
+
+        .h-5 {
+            height: 1.25rem
+        }
+
+        .min-h-screen {
+            min-height: 100vh
+        }
+
+        .w-auto {
+            width: auto
+        }
+
+        .w-full {
+            width: 100%
+        }
+
+        .w-16 {
+            width: 4rem
+        }
+
+        .w-7 {
+            width: 1.75rem
+        }
+
+        .w-6 {
+            width: 1.5rem
+        }
+
+        .w-5 {
+            width: 1.25rem
+        }
+
+        .max-w-7xl {
+            max-width: 80rem
+        }
+
+        .shrink-0 {
+            flex-shrink: 0
+        }
+
+        .scale-100 {
+            --tw-scale-x: 1;
+            --tw-scale-y: 1;
+            transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+        }
+
+        .grid-cols-1 {
+            grid-template-columns: repeat(1, minmax(0, 1fr))
+        }
+
+        .items-center {
+            align-items: center
+        }
+
+        .justify-center {
+            justify-content: center
+        }
+
+        .gap-6 {
+            gap: 1.5rem
+        }
+
+        .gap-4 {
+            gap: 1rem
+        }
+
+        .self-center {
+            align-self: center
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem
+        }
+
+        .rounded-full {
+            border-radius: 9999px
+        }
+
+        .bg-gray-100 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(243 244 246 / var(--tw-bg-opacity))
+        }
+
+        .bg-white {
+            --tw-bg-opacity: 1;
+            background-color: rgb(255 255 255 / var(--tw-bg-opacity))
+        }
+
+        .bg-red-50 {
+            --tw-bg-opacity: 1;
+            background-color: rgb(254 242 242 / var(--tw-bg-opacity))
+        }
+
+        .bg-dots-darker {
+            background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,0,0.07)'/%3E%3C/svg%3E")
+        }
+
+        .from-gray-700\/50 {
+            --tw-gradient-from: rgb(55 65 81 / 0.5);
+            --tw-gradient-to: rgb(55 65 81 / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to)
+        }
+
+        .via-transparent {
+            --tw-gradient-to: rgb(0 0 0 / 0);
+            --tw-gradient-stops: var(--tw-gradient-from), transparent, var(--tw-gradient-to)
+        }
+
+        .bg-center {
+            background-position: center
+        }
+
+        .stroke-red-500 {
+            stroke: #ef4444
+        }
+
+        .stroke-gray-400 {
+            stroke: #9ca3af
+        }
+
+        .p-6 {
+            padding: 1.5rem
+        }
+
+        .px-6 {
+            padding-left: 1.5rem;
+            padding-right: 1.5rem
+        }
+
+        .py-6 {
+            padding-top: 1.5rem;
+            padding-bottom: 30px !important;
+        }
+
+
+        .text-center {
+            text-align: center
+        }
+
+        .text-right {
+            text-align: right
+        }
+
+        .text-xl {
+            font-size: 1.25rem;
+            line-height: 1.75rem
+        }
+
+        .text-sm {
+            font-size: 0.875rem;
+            line-height: 1.25rem
+        }
+
+        .font-semibold {
+            font-weight: 600
+        }
+
+        .leading-relaxed {
+            line-height: 1.625
+        }
+
+        .text-gray-600 {
+            --tw-text-opacity: 1;
+            color: rgb(75 85 99 / var(--tw-text-opacity))
+        }
+
+        .text-gray-900 {
+            --tw-text-opacity: 1;
+            color: rgb(17 24 39 / var(--tw-text-opacity))
+        }
+
+        .text-gray-500 {
+            --tw-text-opacity: 1;
+            color: rgb(107 114 128 / var(--tw-text-opacity))
+        }
+
+        .underline {
+            -webkit-text-decoration-line: underline;
+            text-decoration-line: underline
+        }
+
+        .antialiased {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale
+        }
+
+        .shadow-2xl {
+            --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+            --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
+            box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+        }
+
+        .shadow-gray-500\/20 {
+            --tw-shadow-color: rgb(107 114 128 / 0.2);
+            --tw-shadow: var(--tw-shadow-colored)
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms
+        }
+
+        .selection\:bg-red-500 *::selection {
+            --tw-bg-opacity: 1;
+            background-color: rgb(239 68 68 / var(--tw-bg-opacity))
+        }
+
+        .selection\:text-white *::selection {
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity))
+        }
+
+        .selection\:bg-red-500::selection {
+            --tw-bg-opacity: 1;
+            background-color: rgb(239 68 68 / var(--tw-bg-opacity))
+        }
+
+        .selection\:text-white::selection {
+            --tw-text-opacity: 1;
+            color: rgb(255 255 255 / var(--tw-text-opacity))
+        }
+
+        .hover\:text-gray-900:hover {
+            --tw-text-opacity: 1;
+            color: rgb(17 24 39 / var(--tw-text-opacity))
+        }
+
+        .hover\:text-gray-700:hover {
+            --tw-text-opacity: 1;
+            color: rgb(55 65 81 / var(--tw-text-opacity))
+        }
+
+        .focus\:rounded-sm:focus {
+            border-radius: 0.125rem
+        }
+
+        .focus\:outline:focus {
+            outline-style: solid
+        }
+
+        .focus\:outline-2:focus {
+            outline-width: 2px
+        }
+
+        .focus\:outline-red-500:focus {
+            outline-color: #ef4444
+        }
+
+        .group:hover .group-hover\:stroke-gray-600 {
+            stroke: #4b5563
+        }
+
+        .z-10 {
+            z-index: 10
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            .motion-safe\:hover\:scale-\[1\.01\]:hover {
+                --tw-scale-x: 1.01;
+                --tw-scale-y: 1.01;
+                transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .dark\:bg-gray-900 {
+                --tw-bg-opacity: 1;
+                background-color: rgb(17 24 39 / var(--tw-bg-opacity))
+            }
+
+            .dark\:bg-gray-800\/50 {
+                background-color: rgb(31 41 55 / 0.5)
+            }
+
+            .dark\:bg-red-800\/20 {
+                background-color: rgb(153 27 27 / 0.2)
+            }
+
+            .dark\:bg-dots-lighter {
+                background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(255,255,255,0.07)'/%3E%3C/svg%3E")
+            }
+
+            .dark\:bg-gradient-to-bl {
+                background-image: linear-gradient(to bottom left, var(--tw-gradient-stops))
+            }
+
+            .dark\:stroke-gray-600 {
+                stroke: #4b5563
+            }
+
+            .dark\:text-gray-400 {
+                --tw-text-opacity: 1;
+                color: rgb(156 163 175 / var(--tw-text-opacity))
+            }
+
+            .dark\:text-white {
+                --tw-text-opacity: 1;
+                color: rgb(255 255 255 / var(--tw-text-opacity))
+            }
+
+            .dark\:shadow-none {
+                --tw-shadow: 0 0 #0000;
+                --tw-shadow-colored: 0 0 #0000;
+                box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)
+            }
+
+            .dark\:ring-1 {
+                --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+                --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+                box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+            }
+
+            .dark\:ring-inset {
+                --tw-ring-inset: inset
+            }
+
+            .dark\:ring-white\/5 {
+                --tw-ring-color: rgb(255 255 255 / 0.05)
+            }
+
+            .dark\:hover\:text-white:hover {
+                --tw-text-opacity: 1;
+                color: rgb(255 255 255 / var(--tw-text-opacity))
+            }
+
+            .group:hover .dark\:group-hover\:stroke-gray-400 {
+                stroke: #9ca3af
+            }
+        }
+
+        @media (min-width: 640px) {
+            .sm\:fixed {
+                position: fixed
+            }
+
+            .sm\:top-0 {
+                top: 0px
+            }
+
+            .sm\:right-0 {
+                right: 0px
+            }
+
+            .sm\:ml-0 {
+                margin-left: 0px
+            }
+
+            .sm\:flex {
+                display: flex
+            }
+
+            .sm\:items-center {
+                align-items: center
+            }
+
+            .sm\:justify-center {
+                justify-content: center
+            }
+
+            .sm\:justify-between {
+                justify-content: space-between
+            }
+
+            .sm\:text-left {
+                text-align: left
+            }
+
+            .sm\:text-right {
+                text-align: right
+            }
+        }
+
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 {
+                grid-template-columns: repeat(2, minmax(0, 1fr))
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .lg\:gap-8 {
+                gap: 2rem
+            }
+
+            .lg\:p-8 {
+                padding: 2rem
+            }
+        }
+
+
+        .pdt_img {
+            width: 150px !important;
+            height: auto !important;
+            border-radius: 0 !important;
+        }
+
+      
+    </style>
+</head>
+
+<body>
+
+    <!-- header -->
+    <!-- HEADER -->
+    <header class="sm:flex sm:justify-center sm:items-center">
+        <!-- TOP HEADER -->
+        <!-- <div id="top-header" class="sm:fixed sm:top-0 w-full z-10">
+            <div class="container">
+                <ul class="header-links pull-left">
+                    <li><a href="#"><i class="fa fa-phone"></i> +91 99999 88888</a></li>
+                    <li><a href="#"><i class="fa fa-envelope-o"></i> contact@amazecart.com</a></li>
+                    <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+                </ul>
+                <ul class="header-links pull-right">
+
+                                        <li class="sm:fixed sm:top-0 sm:right-0 p-6  z-10">
+                                                <a href="http://localhost:8000/login" class="font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
+
+                                                <a href="http://localhost:8000/register" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                                                                    </li>
+                                    </ul>
+            </div>
+        </div> -->
+        <!-- /TOP HEADER -->
+
+        <!-- MAIN HEADER -->
+        <div id="header" class="w-full">
+            <!-- container -->
+            <div class="container">
+                <!-- row -->
+                <div class="row sm:flex sm:justify-center sm:items-center  ml-10">
+                    <!-- LOGO -->
+                    <div class="col-md-3">
+                        <div class="header-logo ">
+                            <a href="http://localhost:8000" class="logo">
+                                <img src="/img/logo.png" alt="" height="100">
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /LOGO -->
+
+                    <!-- SEARCH BAR -->
+                    <div class="col-md-5">
+                        <div class="header-search">
+                            <form action="http://localhost:8000/search" method="GET">
+                                <select name="category" class="input-select">
+                                    <option value="all" selected>All Categories</option>
+                                                                        <option value="Mobile">Mobile</option>
+                                                                        <option value="Laptop">Laptop</option>
+                                                                        <option value="Accessories">Accessories</option>
+                                                                        <option value="Television">Television</option>
+                                                                    </select>
+                                <input name="search_query" class="input" placeholder="Search here">
+                                <button type="submit" class="search-btn">Search</button>
+                            </form>
+
+                        </div>
+                    </div>
+                    <!-- /SEARCH BAR -->
+
+                    <!-- ACCOUNT -->
+                    <div class="col-md-4 clearfix">
+                        <div class="header-ctn">
+
+                            <!-- Wishlist -->
+                            <div>
+                                <a href="http://localhost:8000/viewwish">
+                                    <i class="fa fa-heart-o"></i>
+                                    <span>Your Wishlist</span>
+                                                                    </a>
+                            </div>
+                            <!-- /Wishlist -->
+
+
+                            <!-- Cart -->
+                            <div class="dropdown">
+                                                                <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                    <i class="fa fa-shopping-cart"></i>
+                                    <span>Your Cart</span>
+                                </a>
+                                                            </div>
+                            <!-- /Cart -->
+
+                            <!-- Profile pic -->
+                            <div class="dropdown">
+                                <a>
+                                    <div class="profile" onclick="toggleDropdown()">
+                                                                                <img src="/assets/images/profile/profile-image.png" alt="profile_image">
+                                                                            </div>
+                                </a>
+                                <div id="myDropdown" class="dropdown-content">
+                                    <!-- Dropdown menu items -->
+                                                                        <a href=" http://localhost:8000/login">
+                                        <i class="fa fa-sign-in"></i>
+                                        <span>Login</span>
+                                    </a>
+                                    <a href="http://localhost:8000/register">
+                                        <i class="fa fa-user-plus"></i>
+                                        <span>Register</span>
+                                    </a>
+
+                                                                    </div>
+                            </div>
+                            <!-- /Profile pic -->
+
+
+                            <!-- Menu Toogle -->
+                            <div class="menu-toggle">
+                                <a href="#">
+                                    <i class="fa fa-bars"></i>
+                                    <span>Menu</span>
+                                </a>
+                            </div>
+                            <!-- /Menu Toogle -->
+                        </div>
+                    </div>
+                    <!-- /ACCOUNT -->
+                </div>
+                <!-- row -->
+            </div>
+            <!-- container -->
+        </div>
+        <!-- /MAIN HEADER -->
+    </header>
+    <!-- /HEADER -->
+
+
+    <script>
+        // Function to toggle dropdown visibility
+        function toggleDropdown() {
+            var dropdownContent = document.getElementById("myDropdown");
+            dropdownContent.classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>    <!-- header -->
+
+
+    <!-- NAVIGATION -->
+    <nav id="navigation" class="z-10">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- NAV -->
+            <ul class="main-nav nav navbar-nav">
+                <li class=""><a href="http://localhost:8000">Home</a></li>
+                                <li class="active">
+                    <a href="http://localhost:8000/categorypage/Mobile">Mobile</a>
+                </li>
+                                <li class="">
+                    <a href="http://localhost:8000/categorypage/Laptop">Laptop</a>
+                </li>
+                                <li class="">
+                    <a href="http://localhost:8000/categorypage/Accessories">Accessories</a>
+                </li>
+                                <li class="">
+                    <a href="http://localhost:8000/categorypage/Television">Television</a>
+                </li>
+                            </ul>
+            <!-- /NAV -->
+        </div>
+        <!-- /responsive-nav -->
+    </div>
+    <!-- /container -->
+</nav>    <!-- /NAVIGATION -->
+
+    <!-- BREADCRUMB -->
+    <div id="breadcrumb" class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="breadcrumb-tree">
+                        <li><a href="http://localhost:8000">Home</a></li>
+                                                <li><a href="http://localhost:8000/categorypage/all">All Categories</a></li>
+                                                <li class="active">Mobile</li>
+                                                
+                                                <li class="active"></li>
+                                            </ul>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /BREADCRUMB -->
+
+
+
+
+    <!-- SECTION -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- ASIDE -->
+                <div id="aside" class="col-md-2">
+                    <!-- aside Widget -->
+
+                    <form action="http://localhost:8000/search" method="GET">
+                        <div class="aside">
+                            <h3 class="aside-title">Categories</h3>
+                            <div class="checkbox-filter">
+                                
+                                <div class="input-checkbox">
+                                    <input type="checkbox" name="category[]" id="Mobile" value="Mobile">
+                                    <label for="Mobile">
+                                        <span></span>
+                                        Mobile
+                                        <small></small>
+                                    </label>
+                                </div>
+                                
+                                <div class="input-checkbox">
+                                    <input type="checkbox" name="category[]" id="Laptop" value="Laptop">
+                                    <label for="Laptop">
+                                        <span></span>
+                                        Laptop
+                                        <small></small>
+                                    </label>
+                                </div>
+                                
+                                <div class="input-checkbox">
+                                    <input type="checkbox" name="category[]" id="Accessories" value="Accessories">
+                                    <label for="Accessories">
+                                        <span></span>
+                                        Accessories
+                                        <small></small>
+                                    </label>
+                                </div>
+                                
+                                <div class="input-checkbox">
+                                    <input type="checkbox" name="category[]" id="Television" value="Television">
+                                    <label for="Television">
+                                        <span></span>
+                                        Television
+                                        <small></small>
+                                    </label>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <!-- /aside Widget -->
+
+                        <!-- aside Widget -->
+                        <div class="aside">
+                            <h3 class="aside-title">Price</h3>
+                            <div class="checkbox-filter">
+                                
+                                <div class="input-checkbox">
+                                    <input type="checkbox" id="price_0_to_15000" name="price_range[]" value="below-15000">
+                                    <label for="price_0_to_15000">
+                                        <span></span>
+                                        Below <i class="fa fa-rupee"></i>15000
+                                        <small></small>
+                                    </label>
+                                </div>
+
+                                 <div class="input-checkbox">
+                                    <input type="checkbox" id="price_15000_to_30000" name="price_range[]" value="15000-30000">
+                                    <label for="price_15000_to_30000">
+                                        <span></span>
+                                        <i class="fa fa-rupee"></i>15000 - <i class="fa fa-rupee"></i>30000
+                                        <small></small>
+                                    </label>
+                            </div>
+
+                                                         <div class="input-checkbox">
+                                    <input type="checkbox" id="price_30000_to_45000" name="price_range[]" value="30000-45000">
+                                    <label for="price_30000_to_45000">
+                                        <span></span>
+                                        <i class="fa fa-rupee"></i>30000 - <i class="fa fa-rupee"></i>45000
+                                        <small></small>
+                                    </label>
+                            </div>
+
+                                                         <div class="input-checkbox">
+                                    <input type="checkbox" id="price_45000_to_60000" name="price_range[]" value="45000-60000">
+                                    <label for="price_45000_to_60000">
+                                        <span></span>
+                                        <i class="fa fa-rupee"></i>45000 - <i class="fa fa-rupee"></i>60000
+                                        <small></small>
+                                    </label>
+                            </div>
+
+                                                         <div class="input-checkbox">
+                                    <input type="checkbox" id="price_60000_to_75000" name="price_range[]" value="60000-75000">
+                                    <label for="price_60000_to_75000">
+                                        <span></span>
+                                        <i class="fa fa-rupee"></i>60000 - <i class="fa fa-rupee"></i>75000
+                                        <small></small>
+                                    </label>
+                            </div>
+
+                                                                                    <div class="input-checkbox">
+                                <input type="checkbox" id="price_75000_to_more" name="price_range[]" value="above-75000">
+                                <label for="price_75000_to_more">
+                                    <span></span>
+                                    Above <i class="fa fa-rupee"></i>75000
+                                    <small></small>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit">Apply Filters</button>
+                    </form>
+                </div>
+                <!-- /aside Widget -->
+
+            </div>
+            <!-- /ASIDE -->
+
+
+            <!-- Store Products -->
+            <div id="store" class="col-md-10">
+                <!-- Store Products -->
+                <div class="row flex  wrap  py-6" style="row-gap: 3.5rem;">
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=1'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1721378471.webp" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> vivo T3x 5G (Celestial Green, 128 GB)  (6 GB RAM)</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>14999 <del class="product-old-price"><i class="fa fa-rupee"></i>18999 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=1">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=1&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{1}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="1">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{1}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=2'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723104880_66b47e70e9e78.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> Motorola razr 40 (Sage Green, 8GB RAM, 256GB Storage) | External AMOLED Display | 6.9&quot; AMOLED 144Hz Display | 64MP Main Camera | Android 13</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>33749 <del class="product-old-price"><i class="fa fa-rupee"></i>99999 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=2">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=2&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{2}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="2">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{2}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=3'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723276964_66b71ea4c4eba.png" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> Motorola Edge 50 Fusion (Marshmallow Blue, 256 GB)  (12 GB RAM)</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>24999 <del class="product-old-price"><i class="fa fa-rupee"></i>27999 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=3">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=3&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{3}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="3">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{3}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=4'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723527876_66baf2c49ba91.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> HONOR 200 5G (Black, 8GB + 256GB) | 6.7-inch AMOLED Quad-Curved Display | Dual OIS 50MP + 50MP + 12MP Camera | 50MP Selfie Camera | AI-Powered MagicOS 8.0 | Without Charger</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>34999 <del class="product-old-price"><i class="fa fa-rupee"></i>39999 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=4">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=4&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{4}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="4">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{4}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=5'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723530445_66bafccd62239.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> Samsung Galaxy Z Fold6 5G AI Smartphone (Silver Shadow, 12GB RAM, 1TB Storage)</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>200999</h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=5">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=5&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{5}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="5">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{5}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=6'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723530639_66bafd8f68d84.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> EXONY Pixel 8 Pro 5G (12GB RAM) (256, Obsidian Black, New)</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>96000 <del class="product-old-price"><i class="fa fa-rupee"></i>120000 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=6">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=6&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{6}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="6">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{6}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=7'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723530713_66bafdd9297ef.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> Samsung Galaxy S24 Ultra 5G AI Smartphone (Titanium Gray, 12GB, 1TB Storage)</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>156000 <del class="product-old-price"><i class="fa fa-rupee"></i>164000 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=7">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=7&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{7}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="7">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{7}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=8'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723529496_66baf9189d208.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> IKALL A4 Feature Phone with Premium Design (3.36&quot; Display, 2000 mAh Built-in Battery and Type-C Fast Charging Port) (Silver)</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>2999 <del class="product-old-price"><i class="fa fa-rupee"></i>3599 </del></h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=8">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=8&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{8}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="8">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{8}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    <div class="col-md-4 col-xs-6  m-6 py-6" style="z-index: 1; height: 500px;">
+
+                        <div class="product" onclick="window.location.href='http://localhost:8000/productdetails?product=9'">
+                                                        <div class="product-img product-img-container">
+                                <img src="/product/1723530053_66bafb453c89b.jpg" alt="">
+                            </div>
+                            <div class="product-body">
+                                <p class="product-category">Mobile</p>
+                                <h3 class="product-name"><a href="#"> Nokia 2660 Flip 4G Volte keypad Phone with Dual SIM, Dual Screen, inbuilt MP3 Player &amp; Wireless FM Radio | Blue</a></h3>
+
+                                                                <h4 class="product-price"><i class="fa fa-rupee"></i>3653</h4>
+                                
+                                <!-- <div class="product-rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div> -->
+                                <div class="product-btns">
+
+
+                                    <button class="quick-view">
+                                        <a href="http://localhost:8000/productdetails?product=9">
+                                            <i class="fa fa-eye"></i>
+                                            <span class="tooltipp">view details</span>
+                                        </a>
+                                    </button>
+
+                                    <button class="add-to-wishlist">
+                                        <a href="http://localhost:8000/addtowish?product=9&quantity=1">
+                                            <i class="fa fa-heart-o"></i>
+                                            <span class="tooltipp">add to wishlist</span>
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="add-to-cart">
+
+                                <form action="http://localhost:8000/addtocart" method="get" class="form m-auto inline-flex" id="addtocartform{9}">
+                                    <input type="hidden" name="_token" value="WvJ25hLXTkQRuqxP0Bm8v8Zh2elF1oqHMSdTvLzJ" autocomplete="off">                                    <input type="hidden" name="product" value="9">
+                                    <input type="hidden" value="1" name="quantity">
+                                </form>
+
+                                <button class="add-to-cart-btn" onclick="submit('{9}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                                    </div>
+                <div class="store-filter clearfix">
+                    <span class="store-qty">Showing 1-9 of 9 products</span>
+                    <ul class="store-pagination">
+
+                                                <li class="disabled"><span>&laquo;</span></li>
+                        
+                        
+                                                                                <li class="active"><span>1</span></li>
+                                                        
+                            
+                                                        <li class="disabled"><span>&raquo;</span></li>
+                                                </ul>
+                </div>
+
+
+            </div>
+            <!-- /Store -->
+        </div>
+        <!-- /row -->
+    </div>
+    <!-- /container -->
+
+    <!-- /SECTION -->
+    <script>
+        function submit(id, type) {
+            if (type == 'view') {
+                var formId = 'viewdetailsform' + id;
+                document.getElementById(formId).submit();
+            } else {
+                var formId = 'addtocartform' + id;
+                document.getElementById(formId).submit();
+            }
+
+        }
+    </script>
+
+
+    <!-- FOOTER -->
+    <footer id="footer">
+    <!-- top footer -->
+    <div class="section">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-3 col-xs-6">
+                    <div class="footer">
+                        <h3 class="footer-title">About Us</h3>
+                        <p>Our team is passionate about offering high-quality products, excellent customer service, and a seamless shopping journey.</p>
+                        <br>
+                        <ul class="footer-links">
+                            <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
+                            <li><a href="#"><i class="fa fa-phone"></i> +91 99999 88888</a></li>
+                            <li><a href="#"><i class="fa fa-envelope-o"></i>contact@amazecart.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-6">
+                    <div class="footer">
+                        <h3 class="footer-title">Categories</h3>
+                        <ul class="footer-links">
+
+                                                        <li><a href="http://localhost:8000/categorypage/Mobile">Mobile</a></li>
+                                                        <li><a href="http://localhost:8000/categorypage/Laptop">Laptop</a></li>
+                                                        <li><a href="http://localhost:8000/categorypage/Accessories">Accessories</a></li>
+                                                        <li><a href="http://localhost:8000/categorypage/Television">Television</a></li>
+                                                    </ul>
+                    </div>
+                </div>
+
+                <div class="clearfix visible-xs"></div>
+
+                <div class="col-md-3 col-xs-6">
+                    <div class="footer">
+                        <h3 class="footer-title">Information</h3>
+                        <ul class="footer-links">
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="col-md-3 col-xs-6">
+                    <div class="footer">
+                        <h3 class="footer-title">Service</h3>
+                        <ul class="footer-links">
+                            <li><a href="http://localhost:8000/redirect">My Account</a></li>
+                            <li><a href="http://localhost:8000/viewcart">View Cart</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /top footer -->
+
+    <!-- bottom footer -->
+    <div id="bottom-footer" class="section">
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <!-- <ul class="footer-payments">
+                        <li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+                        <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+                        <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+                    </ul> -->
+                    <span class="copyright">
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        Copyright &copy;<script>
+                            document.write(new Date().getFullYear());
+                        </script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </span>
+                </div>
+            </div>
+            <!-- /row -->
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /bottom footer -->
+</footer>    <!-- /FOOTER -->
+
+    <!-- jQuery Plugins -->
+    <script src="/home/js/jquery.min.js"></script>
+    <script src="/home/js/bootstrap.min.js"></script>
+    <script src="/home/js/slick.min.js"></script>
+    <script src="/home/js/nouislider.min.js"></script>
+    <script src="/home/js/jquery.zoom.min.js"></script>
+    <script src="/home/js/main.js"></script>
+
+
+
+
+</body>
+
+</html>

@@ -31,19 +31,23 @@
                         <!-- tab -->
                         <div id="tab{{ $key + 1 }}" class="tab-pane {{ $key === 0 ? 'active' : '' }}">
                             <div class="products-slick" data-nav="#slick-nav-{{ $key + 1 }}">
-
+                                @if(isset($products[$key]))
                                 @foreach($products[$key] as $product)
                                 <!-- product -->
                                 <?php $i = "{{$product['product']->id}}"; ?>
 
 
-                                <div class="product">
-                                    <div class="product-img">
-                                        <img src="/product/{{$product['product']->image}}" alt="">
+                                <div class="product" onclick="window.location.href='{{ url('/productdetails') }}?product={{ $product['product']->id }}'">
+                                    @php
+                                    $images = json_decode($product['product']->image); // Decode the JSON string into an array
+                                    @endphp
+
+                                    <div class="product-img-container product-img">
+                                        <img src="/product/{{$images[0]}}" alt="">
                                     </div>
                                     <div class="product-body">
                                         <p class="product-category">{{$product['product']->category}}</p>
-                                        <h3 class="product-name"><a href="#"> {{$product['product']->title}}</a></h3>
+                                        <h3 class="product-name "><a href="{{ url('/productdetails') }}?product={{ $product['product']->id }}"> {{$product['product']->title}}</a></h3>
 
                                         @if($product['product']->discount_price)
                                         <h4 class="product-price"><i class="fa fa-rupee"></i>{{$product['product']->discount_price}} <del class="product-old-price"><i class="fa fa-rupee"></i>{{$product['product']->price}} </del></h4>
@@ -59,17 +63,32 @@
                                             <i class="fa fa-star"></i>
                                         </div>
                                         <div class="product-btns">
-                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
 
-                                            <form action="{{ url('/productdetails') }}" method="get" class="form m-auto inline-flex" id="viewdetailsform{{ $i }}">
+                                            <!-- <form action="{{ url('/productdetails') }}" method="get" class="form m-auto inline-flex" id="viewdetailsform{{ $i }}">
                                                 @csrf
                                                 <input type="hidden" name="product" value="{{$product['product']->id}}">
-                                            </form>
-                                            <button class="quick-view" onclick="submit('{{ $i }}','view')"><i class="fa fa-eye"></i><span class="tooltipp">view details</span></button>
+                                            </form> -->
+
+
+
+                                            <button class="quick-view">
+                                                <a href="{{ url('/productdetails') }}?product={{ $product['product']->id }}">
+                                                    <i class="fa fa-eye"></i>
+                                                    <span class="tooltipp">view details</span>
+                                                </a>
+                                            </button>
+
+                                            <button class="add-to-wishlist">
+                                                <a href="{{ url('/addtowish') }}?product={{ $product['product']->id }}&quantity=1">
+                                                    <i class="fa fa-heart-o"></i>
+                                                    <span class="tooltipp">add to wishlist</span>
+                                                </a>
+                                            </button>
+
 
                                         </div>
                                     </div>
-                                    <div class="add-to-cart">
+                                    <!-- <div class="add-to-cart">
 
                                         <form action="{{ url('/addtocart') }}" method="get" class="form m-auto inline-flex" id="addtocartform{{ $i }}">
                                             @csrf
@@ -78,13 +97,18 @@
                                         </form>
 
                                         <button class="add-to-cart-btn" onclick="submit('{{ $i }}','cart')"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    </div> -->
+
+                                    <div class="add-to-cart">
+                                        <a href="{{ url('/addtocart') }}?product={{ $product['product']->id }}&quantity=1" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</a>
                                     </div>
+
                                 </div>
 
 
                                 <!-- /product -->
                                 @endforeach
-
+                                @endif
                             </div>
                             <div id="slick-nav-{{ $key + 1 }}" class="products-slick-nav"></div>
 
@@ -101,7 +125,7 @@
     <!-- /container -->
 </div>
 
-
+<!-- 
 <script>
     function submit(id, type) {
         if (type == 'view') {
@@ -113,4 +137,4 @@
         }
 
     }
-</script>
+</script> -->

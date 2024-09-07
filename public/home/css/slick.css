@@ -89,6 +89,9 @@
 .slick-slide img
 {
     display: block;
+    max-height: 50vh;
+    margin: 0 auto;
+
 }
 .slick-slide.slick-loading img
 {
@@ -116,4 +119,25 @@
 }
 .slick-arrow.slick-hidden {
     display: none;
+}
+
+
+.zoom-image {
+    display: block;
+    max-height: 50vh;
+    margin: 0 auto;
+    cursor: crosshair; /* Indicate zoom capability */
+}
+
+.zoom-view {
+    position: absolute;
+    top: -10%;
+    width: 700px;  /* Adjust size as needed */
+    height: 500px; /* Adjust size as needed */
+    border: 1px solid #ddd;
+    background-repeat: no-repeat;
+    display: none; /* Initially hidden */
+    pointer-events: none; /* Ignore mouse events on the zoom view */
+    margin: 1px auto;
+    z-index: 100;
 }

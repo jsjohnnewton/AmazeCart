@@ -16,8 +16,6 @@
         color: black;
     }
 
-
-
     .table>tbody>tr>td {
         vertical-align: middle;
     }
@@ -25,16 +23,15 @@
 
     input[type="number"],
     input[type="text"] {
-        padding: 5px;
+        padding: 2px;
         width: 60px;
         text-align: center;
         border: 1px solid #ccc;
         border-radius: 5px;
         margin-right: 5px;
+        font-size: 2rem;
     }
-</style>
 
-<style>
     /* Styling for the popup */
     #popup {
         display: none;
@@ -58,13 +55,21 @@
 
 
     <!-- NAVIGATION -->
-    @include('home.navigation')
+    @include('home.dashboard.navigation')
     <!-- /NAVIGATION -->
 
 
     <div class="section mb-4">
         <!-- container -->
         <div class="container">
+            @if(session()->has('success'))
+            <div class=" alert alert-success">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
+                {{session()->get('success')}}
+            </div>
+            @endif
+            @if (!empty($cart_products))
+
             <!-- row -->
             <div class="row">
 
@@ -73,17 +78,15 @@
                         <div class="text-center pt-1">
                             <h2 class="p-1 panel-title">My Cart</h2>
 
-                            @if(session()->has('success'))
-                            <div class=" alert alert-success">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-                                {{session()->get('success')}}
-                            </div>
-                            @endif
+
 
                         </div>
+
+
                         <div class="d-flex f-end">
                             <a href="{{ url('/clearcart') }}" onclick="return confirm('Are you sure you want to clear your cart?')" class="btn btn-danger">Clear Cart</a>
                         </div>
+
 
                         <table class="table table-responsive ml-auto mr-auto mt-2 w-auto text-center pb-1">
                             <thead class="pb-1">
@@ -178,10 +181,10 @@
 
                                     <thead class="pb-1">
                                         <tr class="pb-1">
-                                            <th class="pb-1 p-0 pl-3">
+                                            <!-- <th class="pb-1 p-0 pl-3">
                                                 Select All
                                                 <input type="checkbox" id="selectAllCheckbox">
-                                            </th>
+                                            </th> -->
                                             <th class="pb-1 p-0 pl-3">Product Title</th>
                                             <th class="pb-1 p-0 pl-3">Product Quantity</th>
                                             <th class="pb-1 p-0 pl-3">Product Price</th>
@@ -190,9 +193,9 @@
 
                                     @foreach($cart_products as $cart_product)
                                     <tr>
-                                        <td class="pb-1 p-0 pl-1">
-                                            <input type="checkbox" name="product[]" value="{{$cart_product['id']}}" checked>
-                                        </td>
+
+                                        <input type="hidden" name="product[]" value="{{$cart_product['id']}}">
+
                                         <td class="pb-1 p-0 pl-1">{{$cart_product['product']->title}}</td>
                                         <td class="pb-1 p-0 pl-1">{{$cart_product['quantity']}}</td>
                                         @if($cart_product['product']->discount_price)
@@ -206,17 +209,17 @@
                                     </tr>
                                     @endforeach
                                     <tr>
-                                        <th colspan="3" class="text-right">Total Price</th>
+                                        <th colspan="2" class="text-right">Total Price</th>
                                         <td class="pb-1 p-0 pl-1"><i class="fa fa-rupee"> </i>{{$subtotal}}</td>
                                         <input type="hidden" name="totalprice" value="{{$subtotal}}">
                                     </tr>
                                     @auth
-                                    <tr>
+                                    <!-- <tr>
                                         <td>shipping Address</td>
                                         <td colspan="3">
                                             <input type="text" name="address" value="{{auth()->user()->address}}" style="width: 100%;">
                                         </td>
-                                    </tr>
+                                    </tr> -->
                                     <tr>
                                         <td>Mobile number</td>
                                         <td colspan="3">
@@ -225,19 +228,48 @@
                                     </tr>
                                     @endauth
 
+
+                                    @foreach($Addresses as $key => $address)
+
+                                    <?php
+                                    $s = ($key == 0) ? 'checked' : '';
+                                    ?>
+                                    <tr>
+                                        <td>
+                                            <input type="radio" name="address" value=" {{ $address->door_number }}, {{ $address->street }}, {{ $address->post_office }}(p.o), {{ $address->district }}, {{ $address->state }}, {{ $address->pincode }}" <?php echo $s; ?>>
+                                        </td>
+                                        <td>
+                                            <label>
+                                                {{ $address->door_number }}, {{ $address->street }}, {{ $address->post_office }}, {{ $address->district }}, {{ $address->state }}, {{ $address->pincode }}
+                                            </label>
+
+                                        </td>
+                                    </tr>
+
+                                    @endforeach
+
                                 </table>
 
                             </div>
                             <div class="d-flex f-center pt-1">
+
+                                @if($Addresses->count() > 0)
                                 <!-- Buttons for payment methods -->
                                 <button class="btn btn-warning" onclick="placeorder('/pay_cash')">Cash on Delivery</button>
-                                <!-- <button class="btn btn-warning" onclick="placeorder('/pay_card')">Card Payment</button> -->
-
+                                <button class="btn btn-warning" onclick="placeorder('/pay_card')">Card Payment</button>
+                                @else
+                                <a href="{{url('/shippingAddressManage')}}" class="btn btn-danger">Add Shipping Address first</a>
+                                @endif
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+            @else
+            <div class="row sm:flex sm:justify-center">
+                <p>Cart is Empty</p>
+            </div>
+            @endif
         </div>
         <!-- /container -->
     </div>
@@ -313,6 +345,9 @@
         function placeorder(action) {
             const form = document.getElementById('orderform');
             form.action = action; // Change the action attribute
+            if (action == '/pay_card') {
+                form.method = 'post';
+            }
             form.submit(); // Submit the form
         }
     </script>
